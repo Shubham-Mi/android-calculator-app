@@ -27,27 +27,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        result = (EditText) findViewById(R.id.result);
-        newNumber = (EditText) findViewById(R.id.newNumber);
-        displayOperation = (TextView) findViewById(R.id.operation);
+        result = findViewById(R.id.result);
+        newNumber = findViewById(R.id.newNumber);
+        displayOperation = findViewById(R.id.operation);
 
-        Button button0 = (Button) findViewById(R.id.button0);
-        Button button1 = (Button) findViewById(R.id.button1);
-        Button button2 = (Button) findViewById(R.id.button2);
-        Button button3 = (Button) findViewById(R.id.button3);
-        Button button4 = (Button) findViewById(R.id.button4);
-        Button button5 = (Button) findViewById(R.id.button5);
-        Button button6 = (Button) findViewById(R.id.button6);
-        Button button7 = (Button) findViewById(R.id.button7);
-        Button button8 = (Button) findViewById(R.id.button8);
-        Button button9 = (Button) findViewById(R.id.button9);
-        Button buttonDecimal = (Button) findViewById(R.id.buttonDecimal);
+        Button button0 = findViewById(R.id.button0);
+        Button button1 = findViewById(R.id.button1);
+        Button button3 = findViewById(R.id.button3);
+        Button button4 = findViewById(R.id.button4);
+        Button button2 = findViewById(R.id.button2);
+        Button button5 = findViewById(R.id.button5);
+        Button button6 = findViewById(R.id.button6);
+        Button button7 = findViewById(R.id.button7);
+        Button button8 = findViewById(R.id.button8);
+        Button button9 = findViewById(R.id.button9);
+        Button buttonDecimal = findViewById(R.id.buttonDecimal);
 
-        Button buttonEquals = (Button) findViewById(R.id.buttonEquals);
-        Button buttonDivide = (Button) findViewById(R.id.buttonDivide);
-        Button buttonMultiply = (Button) findViewById(R.id.buttonMultiply);
-        Button buttonAdd = (Button) findViewById(R.id.buttonAdd);
-        Button buttonSubtract = (Button) findViewById(R.id.buttonSubtract);
+        Button buttonDivide = findViewById(R.id.buttonDivide);
+        Button buttonMultiply = findViewById(R.id.buttonMultiply);
+        Button buttonSubtract = findViewById(R.id.buttonSubtract);
+        Button buttonAdd = findViewById(R.id.buttonAdd);
+        Button buttonEquals = findViewById(R.id.buttonEquals);
+        Button buttonNeg = findViewById(R.id.buttonNeg);
 
         View.OnClickListener listener = view -> {
             Button b = (Button) view;
@@ -83,6 +84,24 @@ public class MainActivity extends AppCompatActivity {
         buttonMultiply.setOnClickListener(operationListener);
         buttonDivide.setOnClickListener(operationListener);
         buttonEquals.setOnClickListener(operationListener);
+
+        buttonNeg.setOnClickListener(view -> {
+            String value = newNumber.getText().toString();
+
+            if (value.length() == 0) {
+                newNumber.setText("-");
+            }
+            else {
+                try {
+                    Double doubleValue = Double.valueOf(value);
+                    doubleValue *= -1;
+                    newNumber.setText(String.valueOf(doubleValue));
+                } catch (NumberFormatException e) {
+//                    If number is not valid
+                    newNumber.setText("");
+                }
+            }
+        });
     }
 
     @Override
