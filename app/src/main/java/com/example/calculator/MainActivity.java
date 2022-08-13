@@ -1,14 +1,19 @@
 package com.example.calculator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "CalculatorApp";
+    private static final String STATE_PENDING_OPERATION = "savedOperator";
+    private static final String STATE_OPERAND1 = "operand1";
     private EditText result;
     private EditText newNumber;
     private TextView displayOperation;
@@ -78,6 +83,27 @@ public class MainActivity extends AppCompatActivity {
         buttonMultiply.setOnClickListener(operationListener);
         buttonDivide.setOnClickListener(operationListener);
         buttonEquals.setOnClickListener(operationListener);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.d(TAG, "onSaveInstanceState: in");
+        outState.putString(STATE_PENDING_OPERATION, pendingOperation);
+        if (operand1 != null) {
+            outState.putDouble(STATE_OPERAND1, operand1);
+        }
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState: out");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        Log.d(TAG, "onRestoreInstanceState: in");
+        super.onRestoreInstanceState(savedInstanceState);
+        pendingOperation = savedInstanceState.getString(STATE_PENDING_OPERATION);
+        operand1 = savedInstanceState.getDouble(STATE_OPERAND1);
+        displayOperation.setText(pendingOperation);
+        Log.d(TAG, "onRestoreInstanceState: out");
     }
 
     private void performOperation(Double value, String operation) {
